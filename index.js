@@ -48,12 +48,11 @@ async function run() {
           `Check if there's a difference between ${toBranch} and ${fromBranch}`
         );
 
-        // shouldCreatePullRequest = await hasContentDifference(
-        //   octokit,
-        //   fromBranch,
-        //   toBranch
-        // );
-        shouldCreatePullRequest = true
+        shouldCreatePullRequest = await hasContentDifference(
+          octokit,
+          fromBranch,
+          toBranch
+        );
       }
 
       if (shouldCreatePullRequest) {
