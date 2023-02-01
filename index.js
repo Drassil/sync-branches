@@ -29,6 +29,10 @@ async function run() {
       repo,
     });
 
+    console.debug(
+      `Check if there's already a sync PR between ${toBranch} and ${fromBranch}`
+    );
+
     const currentPull = currentPulls.find((pull) => {
       return pull.head.ref === fromBranch && pull.base.ref === toBranch;
     });
@@ -36,6 +40,10 @@ async function run() {
     if (!currentPull) {
       let shouldCreatePullRequest = true;
       if (contentComparison) {
+        console.debug(
+          `Check if there's a difference between ${toBranch} and ${fromBranch}`
+        );
+
         shouldCreatePullRequest = await hasContentDifference(
           octokit,
           fromBranch,
@@ -44,6 +52,10 @@ async function run() {
       }
 
       if (shouldCreatePullRequest) {
+        console.debug(
+          `Creating the PR...`
+        );
+
         const { data: pullRequest } = await octokit.rest.pulls.create({
           owner,
           repo,
@@ -73,8 +85,8 @@ async function run() {
             owner,
             repo,
             issue_number: pullRequest.number,
-            labels
-          })
+            labels,
+          });
         }
 
         console.log(
