@@ -9726,6 +9726,10 @@ async function run() {
 
     const octokit = new github.getOctokit(githubToken);
 
+    console.debug(
+      `List all the PRs in ${owner}/${repo}`
+    );
+
     const { data: currentPulls } = await octokit.rest.pulls.list({
       owner,
       repo,
